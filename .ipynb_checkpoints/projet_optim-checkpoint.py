@@ -9,13 +9,13 @@
 
 # ### Question 2: 
 #
-# On cherche à minimiser le risque sous contrainte d'un certain rendement  $\bar{p}^\intercal  x = r$ et du fait que $\textbf{1}^\intercal x= \textbf{1}$
+# On cherche à minimiser le risque sous contrainte d'un certain rendement  $\bar{p}^\intercal * x = r$ et du fait que $\textbf{1}^\intercal x= \textbf{1}$
 #
 # Ainsi, le problème d'optimisation se traduit par:
 # $$
 # \left\{
 # \begin{array}{l}
-# \text{min}(x^\intercal \Sigma  x) \\
+# \text{min}(x^\intercal \cdot \Sigma \cdot x) \\
 # \textit{s.c.} \;\; c_{eq}(x) = 0
 # \end{array}
 # \right.
@@ -86,7 +86,7 @@ c_1 = lambda x: np.dot(one,
 # -
 
 # ## Question 7
-# *7.a)* $\rho$ représente le coefficient de corrélation des actions. Plus il est grand, plus on considère que les actions sont corrélées et cela infulencera le risque. 
+# 7.a) $\rho$ représente le coefficient de corrélation des actions. Plus il est grand, plus on considère que les actions sont corrélées et cela infulencera le risque. 
 #
 # Comme $\Sigma$ est définie positive, on a:
 #
