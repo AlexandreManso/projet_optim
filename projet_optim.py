@@ -166,6 +166,15 @@ plt.show()
 
 # -
 
+# 8.a)
+
+# +
+R = [0.1,0.2,0.15]
+
+for r in R :
+    print(optimisation(r,0.1))
+# -
+
 # # Partie 3
 
 # ### Question 10
