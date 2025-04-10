@@ -86,9 +86,10 @@ def optimisation(r,rho) :
         return np.transpose(p)@x - r
    
     Sigma = np.array([[sigma1**2,rho*sigma1*sigma2,0],[rho*sigma1*sigma2,sigma2**2,0],[0,0,sigma3**2]])
-    print(optimize.minimize(f,x0,method='SLSQP', constraints=[{'type':'eq', 'fun':c1},{'type':'eq','fun':c2}]))
+    sol = (optimize.minimize(f,x0,method='SLSQP', constraints=[{'type':'eq', 'fun':c1},{'type':'eq','fun':c2}]))
+    return(sol.x, sol.fun)
 
-optimisation(0.1,0.1)
+print(optimisation(0.1,0.1))
 
 # -
 
@@ -165,6 +166,12 @@ plt.show()
 
 
 # -
+
+# *7.c)*
+
+RHO = [-0.5, 0.5]
+for rho in RHO :
+    print(f"pour rho = {rho} l'investissement optimal correspond au vecteur {optimisation(0.1,rho)[0]}")
 
 # # Partie 3
 
