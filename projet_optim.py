@@ -171,7 +171,54 @@ plt.show()
 
 RHO = [-0.5, 0.5]
 for rho in RHO :
-    print(f"pour rho = {rho} l'investissement optimal correspond au vecteur {optimisation(0.1,rho)[0]}")
+    print(f"pour rho = {rho} l'investissement optimal correspond au vecteur {optimisation(0.1,rho)[0]} pour une valeur de <Σx,x> de  {np.sqrt(optimisation(0.1,rho)[1])}")
+
+# Les valeurs minimales de <Σx,x> correspondent bien à celles trouvées graphiquement à la question 7.b) pour des mêmes valeurs de rho
+
+# ### Question 8
+
+# *8.a)*
+
+# +
+R = [0.1,0.15,0.2]
+S = []
+for r in R:
+    opt = optimisation(r,0.1)
+    S.append(opt[0])
+    print(f"l'investissement optimal pour un rendement r = {r} est de {opt[0]} pour un risque de {opt[1]}")
+
+print((S[0] + S[2])/2 - S[1])
+
+# -
+
+# *8.b)* On s'aperçoit que l'investissement optimal pour un rendement de 0.15 est la moyenne des investissements pour 0.1 et 0.2
+
+# *8.c)* Démonstration du two fund theorem:
+# Si on écrit le lagrangien du problème d'optimisation, on a:
+# $$
+# L(x,\lambda) = x^\intercal \Sigma x + \lambda_1 (r - x^\intercal \bar{p}) + \lambda_2 (\textbf{1} - x^\intercal \textbf{1})
+# $$
+#
+# La recherche de points critiques du Lagrangien donne l'investissement optimal:
+#
+# $$
+# X^{opt} = \frac{1}{\Delta}[(\bar{p}^\intercal \Sigma ^{-1} \bar{p}) \Sigma ^{-1}\textbf{1} - (\textbf{1}^{\intercal}\Sigma ^{-1} \bar{p})\Sigma ^{-1} \bar{p}] + \frac{r}{\Delta} [(\textbf{1}^{\intercal}\Sigma ^{-1} \bar{p})\Sigma ^{-1} \bar{p} - (\bar{p}^\intercal \Sigma ^{-1} \bar{p}) \Sigma ^{-1}\textbf{1}]
+# $$
+# où $\Delta = (p^\intercal \Sigma ^{-1} p)(\textbf{1}^{\intercal}\Sigma ^{-1}\textbf{1}) - (p^\intercal \Sigma ^{-1} \textbf{1})^2 $
+#
+# On peut réecrire : 
+# $$
+# X^{opt} = \alpha * 1 + \beta r
+# $$
+# où $\alpha$ et $\beta$ sont des vecteurs
+#
+# Ainsi, en connaissant les investissement optimaux $X_1^{opt} = \alpha + \beta r_1$ et $X_2^{opt} = \alpha * 1 + \beta r_2$pour deux rendements $r_1$ et $r_2$, comme $r \to x(r)$ est linéaire, on a:
+#
+# $$
+# X_3^{opt} = \alpha  + \beta r_3 = \frac{r_3-r_2}{r_1-r_2} x_1^{opt} + \frac{r_1-r_3}{r_1-r_2}x_2^{opt}
+# $$
+#
+# D'où le résultat
 
 # # Partie 3
 

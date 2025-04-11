@@ -9,13 +9,13 @@
 
 # ### Question 2: 
 #
-# On cherche à minimiser le risque sous contrainte d'un certain rendement  $\bar{p}^\intercal * x = r$ et du fait que $\textbf{1}^\intercal x= \textbf{1}$
+# On cherche à minimiser le risque sous contrainte d'un certain rendement  $\bar{p}^\intercal  x = r$ et du fait que $\textbf{1}^\intercal x= \textbf{1}$
 #
 # Ainsi, le problème d'optimisation se traduit par:
 # $$
 # \left\{
 # \begin{array}{l}
-# \text{min}(x^\intercal \cdot \Sigma \cdot x) \\
+# \text{min}(x^\intercal \Sigma  x) \\
 # \textit{s.c.} \;\; c_{eq}(x) = 0
 # \end{array}
 # \right.
@@ -66,22 +66,29 @@
 # +
 import numpy as np
 from scipy import optimize
-from matplotlib import pyplot as plt
 
-one = np.ones(3)
-p = [0.05, 0.15, 0.3]
-sigma_1 = 0.1
-sigma_2 = 0.3
-sigma_3 = 0.8
-rho = 0.1
-r = 0.1
-sig = np.array([[sigma_1**2,           rho*sigma_1*sigma_2, 0],
-                [rho*sigma_1*sigma_2, sigma_2**2,           0],
-      ,         [0,                   0,           sigma_3**2]])
+p1, p2, p3 = 0.05, 0.15, 0.30
+sigma1, sigma2, sigma3 = 0.10, 0.30, 0.80
+x0 = (1/3)*np.ones(3)
+p = np.array([[p1],[p2],[p3]])
+rho = 0.5
 
-f = lambda x: np.dot(np.dot(np.transpose(x), sig),x)
+def optimisation(r,rho) :
+    
+    def f(x):
+        return np.transpose(x)@Sigma@x
+   
+    def c1(x) :
+        n = x.size
+        return np.ones(n)@x - 1
 
-c_1 = lambda x: np.dot(one, 
+    def c2(x) :
+        return np.transpose(p)@x - r
+   
+    Sigma = np.array([[sigma1**2,rho*sigma1*sigma2,0],[rho*sigma1*sigma2,sigma2**2,0],[0,0,sigma3**2]])
+    print(optimize.minimize(f,x0,method='SLSQP', constraints=[{'type':'eq', 'fun':c1},{'type':'eq','fun':c2}]))
+
+optimisation(0.1,0.1)
 
 # -
 
@@ -98,7 +105,47 @@ c_1 = lambda x: np.dot(one,
 #
 # D'où $\rho \in [-1, 1]$
 
+# *7.b)*
 
+# +
+import numpy as np
+import matplotlib.pyplot as plt
+
+sigma1 = 0.3
+sigma2 = 0.2
+sigma3 = 0.1
+p = np.array([1, 0, 0]) 
+RHO = [0.1, 0.5, -0.5]
+n = 100
+
+def f1(rho, x):
+    Sigma = np.array([[sigma1**2, rho*sigma1*sigma2, 0],
+                      [rho*sigma1*sigma2, sigma2**2, 0],
+                      [0, 0, sigma3**2]])
+    return np.sqrt(np.dot(np.dot(x.T, Sigma), x))
+
+def f2(x):
+    p_reduced = p[:2]  
+    return np.dot(p_reduced, x[:2]) 
+
+colors = ['red', 'blue', 'green']
+
+
+for idx, rho in enumerate(RHO):
+    x1v = np.linspace(0, 1, n)
+    x2v = np.ones(x1v.size) - x1v 
+    x = np.array([[x1v[i], x2v[i], 0] for i in range(x1v.size)])
+    X = np.array([f1(rho, xi) for xi in x])
+    Y = np.array([f2(xi) for xi in x]) 
+    plt.plot(X, Y, marker='o', color=colors[idx], linestyle='none', label=f'Rho = {rho}')
+
+plt.legend()
+plt.title("tracé de ((<Σx,x>, p¯x)) sous la contrainte de 1.x = 1 pour différentes valeurs de rho")
+plt.show()
+
+
+
+# -
 
 # # Partie 3
 
